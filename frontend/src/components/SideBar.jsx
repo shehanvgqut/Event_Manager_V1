@@ -38,7 +38,7 @@ const Sidebar = ({ children }) => {
           {user ? (
             <>
               <Link to="/tasks" className="hover:text-gray-300">
-                {isOpen ? 'Tasks' : '📋'}
+                {isOpen ? 'Groups' : '📋'}
               </Link>
               <Link to="/profile" className="hover:text-gray-300">
                 {isOpen ? 'Profile' : '👤'}
@@ -46,6 +46,16 @@ const Sidebar = ({ children }) => {
               {user.role === 'admin' && (
                 <Link to="/admin" className="hover:text-gray-300">
                   {isOpen ? 'Admin Panel' : '🛠️'}
+                </Link>
+              )}
+              {user.role === 'admin' && (
+                <Link to="/admin_event_page" className="hover:text-gray-300">
+                  {isOpen ? 'Events' : '🛠️'}
+                </Link>
+              )}
+               {user.role === 'user' && (
+                <Link to="/user_event_page" className="hover:text-gray-300">
+                  {isOpen ? 'Events' : '🛠️'}
                 </Link>
               )}
               <button
