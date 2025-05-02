@@ -53,7 +53,13 @@ const Sidebar = ({ children }) => {
                   {isOpen ? 'Events' : '🛠️'}
                 </Link>
               )}
-               {user.role === 'user' && (
+              {/* New button linking to AdminEvents page */}
+              {user.role === 'admin' && (
+                <Link to="/admin_events" className="hover:text-gray-300">
+                  {isOpen ? 'Admin Events' : '📅'}
+                </Link>
+              )}
+              {user.role === 'user' && (
                 <Link to="/user_event_page" className="hover:text-gray-300">
                   {isOpen ? 'Events' : '🛠️'}
                 </Link>

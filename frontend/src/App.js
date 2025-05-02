@@ -7,6 +7,7 @@ import Tasks from './pages/Tasks';
 import AdminPage from './pages/AdminPage';
 import UnauthorizedPage from './pages/Unauthorized';
 import ProtectedRoute from './components/ProtectedRoute';
+import AdminEvents from './pages/AdminEvents';
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
             }
           />
           <Route path="/unauthorized" element={<UnauthorizedPage />} />
+          <Route path="/adminevents" element={<AdminEvents />} />
         </Routes>
       </Sidebar>
     </Router>
