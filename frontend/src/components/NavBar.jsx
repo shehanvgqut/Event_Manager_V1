@@ -28,7 +28,7 @@ const Navbar = () => {
             />
             <div className="flex flex-col">
               <span className="font-medium">{user.name || "No Name"}</span>
-              <span className="text-sm text-gray-500">{user.location || "No Location"}</span>
+              <span className="text-sm text-gray-500">{user.university || "No University"}</span>
             </div>
           </div>
         ) : (
