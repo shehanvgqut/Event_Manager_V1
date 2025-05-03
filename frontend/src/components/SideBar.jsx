@@ -6,7 +6,7 @@ import Navbar from './NavBar';
 import Footer from './Footer';  
 
 const Sidebar = ({ children }) => {
-  const { user, logout } = useAuth();
+  const { user, logout, loading } = useAuth();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(true);
 
@@ -41,9 +41,11 @@ const Sidebar = ({ children }) => {
             {isOpen && <span className="text-lg font-bold">Event Manager</span>}
           </Link>
 
-          {user ? (
+          {loading ? (
+              <div>Loading...</div>  // Prevent redirect until we know the user state
+            ): user ? (
             <>
-              <Link to="/tasks" className="flex items-center space-x-2 hover:text-gray-300">
+              <Link to="/groups" className="flex items-center space-x-2 hover:text-gray-300">
                 <span role="img" aria-label="groups">📋</span>
                 {isOpen && <span>Groups</span>}
               </Link>
@@ -51,6 +53,12 @@ const Sidebar = ({ children }) => {
                 <span role="img" aria-label="profile">👤</span>
                 {isOpen && <span>Profile</span>}
               </Link>
+              {user.role === 'user' && (
+              <Link to="/user_dashboard" className="flex items-center space-x-2 hover:text-gray-300">
+                    <span role="img" aria-label="user_dashboard">📅</span>
+                    {isOpen && <span>User Dashboard</span>}
+                  </Link>
+              )}
               {user.role === 'admin' && (
                 <>
                   <Link to="/admin" className="flex items-center space-x-2 hover:text-gray-300">
@@ -61,6 +69,18 @@ const Sidebar = ({ children }) => {
                     <span role="img" aria-label="events">📅</span>
                     {isOpen && <span>Events</span>}
                   </Link>
+                  <Link to="/admin_event_list_page" className="flex items-center space-x-2 hover:text-gray-300">
+                    <span role="img" aria-label="admin_events_list">📅</span>
+                    {isOpen && <span>Events list</span>}
+                  </Link>
+                  <Link to="/admin_dashboard" className="flex items-center space-x-2 hover:text-gray-300">
+                    <span role="img" aria-label="admin_dashboard">📅</span>
+                    {isOpen && <span>Admin Dashboard</span>}
+                  </Link>
+                  <Link to="/admin_create_user" className="flex items-center space-x-2 hover:text-gray-300">
+                    <span role="img" aria-label="admin_create_user">📅</span>
+                    {isOpen && <span>User creation</span>}
+                  </Link>
                 </>
               )}
               {user.role === 'user' && (
@@ -69,6 +89,7 @@ const Sidebar = ({ children }) => {
                   {isOpen && <span>Events</span>}
                 </Link>
               )}
+              
               <button
                 onClick={handleLogout}
                 className="flex items-center space-x-2 text-left hover:text-red-400 focus:outline-none"
