@@ -46,7 +46,7 @@ const AdminEventListPage = () => {
                 <th className="px-4 py-2 text-left">Image</th>
                 <th className="px-4 py-2 text-left">Title</th>
                 <th className="px-4 py-2 text-left">Date</th>
-                <th className="px-4 py-2 text-left">Location</th>
+                <th className="px-4 py-2 text-left">University</th>
                 <th className="px-4 py-2 text-left">Status</th>
                 <th className="px-4 py-2 text-left">Actions</th>
               </tr>
@@ -63,7 +63,7 @@ const AdminEventListPage = () => {
                   </td>
                   <td className="px-4 py-2">{event.title}</td>
                   <td className="px-4 py-2">{new Date(event.date).toLocaleDateString()}</td>
-                  <td className="px-4 py-2">{event.location}</td>
+                  <td className="px-4 py-2">{event.university}</td>
                   <td className="px-4 py-2 capitalize">{event.status}</td>
                   <td className="px-4 py-2">
                     <button

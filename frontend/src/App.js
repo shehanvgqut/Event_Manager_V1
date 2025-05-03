@@ -12,6 +12,7 @@ import UserEvent from './pages/UserEvents';
 import AdminDashboard from "./pages/AdminDashboard"
 import UserDashboard from './pages/UserDashboard';
 import AdminCreateUserPage from "./pages/AdminCreateUserPage"
+import AdminAllUserPage from "./pages/AdminAllUserPage"
 
 function App() {
   return (
@@ -88,6 +89,14 @@ function App() {
             element={
               <ProtectedRoute requiredRole="admin">
                 <AdminCreateUserPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin_user_list"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminAllUserPage />
               </ProtectedRoute>
             }
           />
