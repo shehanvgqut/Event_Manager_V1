@@ -7,6 +7,7 @@ import Tasks from './pages/Tasks';
 import AdminPage from './pages/AdminPage';
 import UnauthorizedPage from './pages/Unauthorized';
 import ProtectedRoute from './components/ProtectedRoute';
+import GroupList from './pages/GroupList';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<Navigate to="/tasks" />} />  {/* ✅ Redirect / to /tasks */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/groups" element={<GroupList />} />
           <Route
             path="/profile"
             element={

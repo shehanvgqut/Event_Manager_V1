@@ -35,6 +35,10 @@ const Sidebar = ({ children }) => {
             {isOpen ? 'Task Manager' : '🗂️'}  {/* ✅ Only render TEXT/ICON here */}
           </Link>
 
+          <Link to="/groups" className="hover:text-gray-300">
+            {isOpen ? 'Groups' : '👥'}
+          </Link>
+
           {user ? (
             <>
               <Link to="/tasks" className="hover:text-gray-300">
