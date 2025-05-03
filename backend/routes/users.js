@@ -1,9 +1,12 @@
 const express = require('express');
 const UserController = require('../controllers/userController');
+const { protect, authorizeRoles } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
-// POST /api/users - create a new user (admin-only)
 router.post('/', UserController.createUser);
 
-module.exports = router;  // ✅ this exports the router
+// ✅ GET /api/users - get all users (admin only)
+router.get('/',  UserController.getAllUsers);
+
+module.exports = router;
