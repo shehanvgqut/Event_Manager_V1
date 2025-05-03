@@ -6,14 +6,14 @@ import Profile from './pages/Profile';
 import Tasks from './pages/Tasks';
 import AdminPage from './pages/AdminPage';
 import UnauthorizedPage from './pages/Unauthorized';
-import ProtectedRoute from './components/ProtectedRoute';
+import ProtectedRoute from './context/ProtectedRoute';
 
 function App() {
   return (
     <Router>
       <Sidebar>
         <Routes>
-          <Route path="/" element={<Navigate to="/tasks" />} />  {/* ✅ Redirect / to /tasks */}
+          <Route path="/" element={<Navigate to="/tasks" />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route
