@@ -11,8 +11,9 @@ import AdminEventList from './pages/AdminEventsList';
 import UserEvent from './pages/UserEvents'; 
 import AdminDashboard from "./pages/AdminDashboard"
 import UserDashboard from './pages/UserDashboard';
-import AdminCreateUserPage from "./pages/AdminCreateUserPage"
-import AdminAllUserPage from "./pages/AdminAllUserPage"
+import AdminCreateUserPage from "./pages/AdminCreateUserPage";
+import AdminAllUserPage from "./pages/AdminAllUserPage";
+import GroupList from './pages/GroupList';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           {/* Public routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/groups" element={<GroupList />} />
 
           {/* Protected routes */}
           <Route
