@@ -11,13 +11,13 @@ class UserService {
       throw new Error('User already exists');
     }
 
-    const hashedPassword = await this._hashPassword(password);
+    // const hashedPassword = await this._hashPassword(password);
 
     // Use UserBuilder to build the user object
     const user = new UserBuilder()
       .setName(name)
       .setEmail(email)
-      .setPassword(hashedPassword)
+      .setPassword(password)
       .setRole(role)
       .setUniversity(university)
       .setAddress(address)

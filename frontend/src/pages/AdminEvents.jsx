@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import axiosInstance from '../axiosConfig';  // use your configured axios
 
 const AdminEvents = () => {
+    const navigate = useNavigate();
+    const { id } = useParams();  // detect if editing
+
     const [formData, setFormData] = useState({
         title: '',
         category: '',
@@ -10,6 +14,37 @@ const AdminEvents = () => {
         location: '',
         description: ''
     });
+
+    const [loading, setLoading] = useState(false);
+
+    // Fetch event data if in edit mode
+    useEffect(() => {
+        const fetchEvent = async () => {
+            if (id) {
+                setLoading(true);
+                try {
+                    const response = await axiosInstance.get(`/api/events/${id}`);
+                    const data = response.data;
+                    setFormData({
+                        title: data.title || '',
+                        category: data.category || '',
+                        eventType: data.eventType || 'single',
+                        sessions: data.sessions?.length
+                            ? data.sessions
+                            : [{ startDate: '', startTime: '', endTime: '' }],
+                        location: data.location || '',
+                        description: data.description || ''
+                    });
+                } catch (error) {
+                    console.error('Error fetching event:', error);
+                    alert('Failed to load event data.');
+                } finally {
+                    setLoading(false);
+                }
+            }
+        };
+        fetchEvent();
+    }, [id]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -32,18 +67,31 @@ const AdminEvents = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5001/api/events', formData);
-            console.log(response.data);
-            alert('Event created successfully!');
+            if (id) {
+                // Update existing event
+                await axiosInstance.put(`/api/events/${id}`, formData);
+                alert('Event updated successfully!');
+            } else {
+                // Create new event
+                await axiosInstance.post('/api/events', formData);
+                alert('Event created successfully!');
+            }
+            navigate('/admin_event_list');
         } catch (err) {
             console.error(err);
-            alert('Failed to create event');
+            alert('Failed to submit event.');
         }
     };
 
+    if (loading) {
+        return <div className="text-center mt-10 text-gray-500">Loading event data...</div>;
+    }
+
     return (
         <div className="max-w-4xl mx-auto p-8 bg-white shadow rounded-lg mt-8">
-            <h1 className="text-3xl font-bold mb-8">Create a New Event</h1>
+            <h1 className="text-3xl font-bold mb-8">
+                {id ? 'Edit Event' : 'Create a New Event'}
+            </h1>
 
             {/* Progress Bar */}
             <div className="flex items-center justify-between mb-8">
@@ -220,7 +268,7 @@ const AdminEvents = () => {
                         type="submit"
                         className="bg-indigo-600 text-white px-6 py-3 rounded hover:bg-indigo-700 transition"
                     >
-                        Save & Continue
+                        {id ? 'Update Event' : 'Save & Continue'}
                     </button>
                 </div>
             </form>

@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';  // ✅ import useNavigate
+import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../axiosConfig';
 
-const AdminEventListPage = () => {
+const AdminEventList = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();  // ✅ initialize navigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchEvents();
@@ -26,7 +26,7 @@ const AdminEventListPage = () => {
     if (!window.confirm('Are you sure you want to delete this event?')) return;
     try {
       await axiosInstance.delete(`/api/events/${id}`);
-      setEvents(events.filter((event) => event._id !== id));  // remove from UI
+      setEvents(events.filter((event) => event._id !== id)); // remove from UI
     } catch (error) {
       console.error('Error deleting event:', error);
     }
@@ -37,7 +37,7 @@ const AdminEventListPage = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Event List (Admin)</h1>
         <button
-          onClick={() => navigate('/admin_event_page')}  // navigate to Create Event page
+          onClick={() => navigate('/admin_event')}
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
         >
           + Create New Event
@@ -56,7 +56,7 @@ const AdminEventListPage = () => {
                 <th className="px-4 py-2 text-left">Image</th>
                 <th className="px-4 py-2 text-left">Title</th>
                 <th className="px-4 py-2 text-left">Date</th>
-                <th className="px-4 py-2 text-left">University</th>
+                <th className="px-4 py-2 text-left">Location</th>
                 <th className="px-4 py-2 text-left">Status</th>
                 <th className="px-4 py-2 text-left">Actions</th>
               </tr>
@@ -72,12 +72,16 @@ const AdminEventListPage = () => {
                     />
                   </td>
                   <td className="px-4 py-2">{event.title}</td>
-                  <td className="px-4 py-2">{new Date(event.date).toLocaleDateString()}</td>
-                  <td className="px-4 py-2">{event.university}</td>
+                  <td className="px-4 py-2">
+                    {event.sessions && event.sessions.length > 0
+                      ? new Date(event.sessions[0].startDate).toLocaleDateString()
+                      : 'N/A'}
+                  </td>
+                  <td className="px-4 py-2">{event.location}</td>
                   <td className="px-4 py-2 capitalize">{event.status}</td>
                   <td className="px-4 py-2">
                     <button
-                      onClick={() => alert('Edit functionality coming soon!')}
+                      onClick={() => navigate(`/admin_event/${event._id}`)}
                       className="text-blue-600 hover:underline mr-2"
                     >
                       Edit
@@ -99,4 +103,4 @@ const AdminEventListPage = () => {
   );
 };
 
-export default AdminEventListPage;
+export default AdminEventList;
