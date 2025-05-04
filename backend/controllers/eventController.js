@@ -1,7 +1,6 @@
 const EventService = require('../services/eventsService');
 
 class EventController {
-
   // GET /api/events
   async getAllEvents(req, res) {
     try {
@@ -32,12 +31,17 @@ class EventController {
   // POST /api/events
   async createEvent(req, res) {
     try {
-        const eventData = {
-            ...req.body,
-            createdBy: '609e129b9f1b2c001f23dabc'  // replace with a real ObjectId from your User collection
-        };
-        const newEvent = await EventService.createEvent(eventData);
+      const eventData = {
+        ...req.body,
+        createdBy: req.user?._id || '609e129b9f1b2c001f23dabc' 
+      };
 
+      // Ensure sessions array exists to prevent crashes
+      if (!Array.isArray(eventData.sessions)) {
+        eventData.sessions = [];
+      }
+
+      const newEvent = await EventService.createEvent(eventData);
       return res.status(201).json(newEvent);
     } catch (err) {
       console.error('EventController: Error creating event:', err.message);

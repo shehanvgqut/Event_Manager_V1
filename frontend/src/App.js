@@ -44,7 +44,7 @@ function App() {
             }
           />
           <Route
-            path="/admin_event_page"
+            path="/admin_event"
             element={
               <ProtectedRoute requiredRole="admin">
                 <AdminEvent />
@@ -52,7 +52,15 @@ function App() {
             }
           />
           <Route
-            path="/admin_event_list_page"
+            path="/admin_event/:id"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminEvent />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin_event_list"
             element={
               <ProtectedRoute requiredRole="admin">
                 <AdminEventList />
