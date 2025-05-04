@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';  // ✅ import useNavigate
 import axiosInstance from '../axiosConfig';
 
 const AdminEventListPage = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();  // ✅ initialize navigate
 
   useEffect(() => {
     fetchEvents();
@@ -32,7 +34,15 @@ const AdminEventListPage = () => {
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">Event List (Admin)</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">Event List (Admin)</h1>
+        <button
+          onClick={() => navigate('/admin_event_page')}  // navigate to Create Event page
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+        >
+          + Create New Event
+        </button>
+      </div>
 
       {loading ? (
         <p>Loading events...</p>
