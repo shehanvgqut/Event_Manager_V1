@@ -19,7 +19,7 @@ class EventBuilder {
     }
   
     setUniversity(university) {
-      this.event.University = university;  // 🛑 Note: property is capitalized in your schema
+      this.event.University = university;
       return this;
     }
   
