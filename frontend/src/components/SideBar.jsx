@@ -107,7 +107,7 @@ const Sidebar = ({ children }) => {
                     {isOpen && <span>Events</span>}
                   </Link>
                   <Link
-                    to="/admin_event_list_page"
+                    to="/admin_event_list"
                     className="flex items-center space-x-2 hover:text-gray-300"
                   >
                     <FaListAlt />
