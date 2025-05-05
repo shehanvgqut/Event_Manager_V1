@@ -32,13 +32,13 @@ const Sidebar = ({ children }) => {
         {/* Sidebar content */}
         <nav className="flex flex-col p-4 space-y-4">
           <Link to="/" className="text-lg font-bold hover:text-gray-300">
-            {isOpen ? 'Task Manager' : '🗂️'}  {/* ✅ Only render TEXT/ICON here */}
+            {isOpen ? 'Event Manager' : '🎉'}  {/* Updated app name */}
           </Link>
 
           {user ? (
             <>
-              <Link to="/tasks" className="hover:text-gray-300">
-                {isOpen ? 'Tasks' : '📋'}
+              <Link to="/dashboard" className="hover:text-gray-300">
+                {isOpen ? 'Dashboard' : '📊'}
               </Link>
               <Link to="/profile" className="hover:text-gray-300">
                 {isOpen ? 'Profile' : '👤'}
@@ -69,7 +69,7 @@ const Sidebar = ({ children }) => {
       </div>
 
       {/* Main content */}
-      <div className="flex-1 p-6">{children}</div> {/* ✅ renders the Routes */}
+      <div className="flex-1 p-6">{children}</div>
     </div>
   );
 };
