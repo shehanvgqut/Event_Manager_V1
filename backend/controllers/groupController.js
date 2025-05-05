@@ -1,11 +1,10 @@
-const groups = require('../models/Groups');
+const Group = require('../models/Groups');
 
-exports.getAllGroups = (req, res) => {
-  res.json(groups);
-};
-
-exports.getGroupById = (req, res) => {
-  const group = groups.find(g => g.id === parseInt(req.params.id));
-  if (!group) return res.status(404).json({ error: "Group not found" });
-  res.json(group);
+exports.getAllGroups = async (req, res) => {
+  try {
+    const groups = await Group.find();
+    res.json(groups);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };

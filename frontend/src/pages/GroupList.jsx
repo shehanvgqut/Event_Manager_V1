@@ -21,7 +21,7 @@ const GroupList = () => {
         <div className="grid gap-6">
           {groups.map(group => (
             <div
-              key={group.id}
+              key={group._id}
               className="bg-gray-200 rounded-xl shadow-sm flex flex-col sm:flex-row p-4 sm:p-6"
             >
               {/* Color Block */}

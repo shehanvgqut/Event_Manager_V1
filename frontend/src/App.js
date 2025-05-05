@@ -26,7 +26,7 @@ function App() {
           {/* Public routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/groups" element={<GroupList />} />
+          
 
           {/* Protected routes */}
           <Route
@@ -45,6 +45,12 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route 
+            path="/groups" 
+            element={
+              <ProtectedRoute requiredRole="user">
+                <GroupList />
+              </ProtectedRoute>} />
           <Route
             path="/admin_event_page"
             element={

@@ -54,10 +54,7 @@ const Sidebar = ({ children }) => {
             {isOpen && <span className="text-lg font-bold">Event Manager</span>}
           </Link>
 
-          <Link to="/groups" className="flex items-center space-x-2 hover:text-gray-300">
-                <FaLayerGroup />
-                {isOpen && <span>Groups</span>}
-              </Link>
+          
 
           {loading ? (
             <div>Loading...</div> // Prevent redirect until we know the user state
@@ -85,8 +82,16 @@ const Sidebar = ({ children }) => {
                     <FaCalendarAlt />
                     {isOpen && <span>Events</span>}
                   </Link>
+                  <Link 
+                    to="/groups" 
+                    className="flex items-center space-x-2 hover:text-gray-300"
+                  >
+                    <FaLayerGroup />
+                    {isOpen && <span>Groups</span>}
+                  </Link>
                 </>
               )}
+              
 
               {user.role === 'admin' && (
                 <>
