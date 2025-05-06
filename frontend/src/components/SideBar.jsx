@@ -99,27 +99,27 @@ const Sidebar = ({ children }) => {
                     <FaTools />
                     {isOpen && <span>Admin Panel</span>}
                   </Link>
-                  <Link
+                  {/* <Link
                     to="/admin_event_page"
                     className="flex items-center space-x-2 hover:text-gray-300"
                   >
                     <FaCalendarAlt />
                     {isOpen && <span>Events</span>}
-                  </Link>
+                  </Link> */}
                   <Link
                     to="/admin_event_list"
                     className="flex items-center space-x-2 hover:text-gray-300"
                   >
                     <FaListAlt />
-                    {isOpen && <span>Events List</span>}
+                    {isOpen && <span>Admin Dashboard</span>}
                   </Link>
-                  <Link
+                  {/* <Link
                     to="/admin_dashboard"
                     className="flex items-center space-x-2 hover:text-gray-300"
                   >
                     <FaChartLine />
                     {isOpen && <span>Admin Dashboard</span>}
-                  </Link>
+                  </Link> */}
                   <Link
                     to="/admin_user_list"
                     className="flex items-center space-x-2 hover:text-gray-300"
