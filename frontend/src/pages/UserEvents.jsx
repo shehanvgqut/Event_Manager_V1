@@ -1,106 +1,60 @@
 import React from "react";
-import { Clock, MessageSquare, List } from "lucide-react";
 
-const UserEventCard = ({
-  title,
-  priority,
-  time,
-  isUrgent,
-  createdBy = "Yash Ghori",
-  eventId = "#402235",
-}) => (
-  <div className="bg-white rounded-xl shadow p-4 flex items-center justify-between mb-4">
-    <div className="flex items-start gap-4">
-      <div className="text-yellow-400 text-2xl">☀️</div>
-      <div>
-        <h3 className="font-semibold">{title}</h3>
-        <p className="text-sm text-gray-500">
-          {eventId} • Created 10 days ago by{" "}
-          <span className="font-semibold">{createdBy}</span>
-        </p>
-        <div className="flex gap-2 mt-1">
-          <span className="bg-green-100 text-green-600 text-xs font-medium px-2 py-1 rounded-full">
-            Registered
-          </span>
-          <span
-            className={`text-xs font-medium px-2 py-1 rounded-full ${
-              priority === "high"
-                ? "bg-red-100 text-red-600"
-                : "bg-green-100 text-green-600"
-            }`}
-          >
-            {priority}
-          </span>
-        </div>
-      </div>
-    </div>
-    <div className="flex items-center gap-4">
-      <div
-        className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm font-mono ${
-          isUrgent ? "bg-red-100 text-red-600" : "bg-green-100 text-green-600"
-        }`}
-      >
-        <Clock size={16} /> {time}
-      </div>
-      <div className="flex items-center gap-2 text-gray-500">
-        <span>2</span>
-        <List size={20} />
-        <MessageSquare size={20} />
-      </div>
-    </div>
+const UserEventCard = ({ title, priority, time, createdBy = "Unknown", eventId = "N/A" }) => (
+  <div style={{ background: "#fff", padding: "1rem", marginBottom: "1rem", borderRadius: "10px", boxShadow: "0 0 5px rgba(0,0,0,0.1)" }}>
+    <h3>{title}</h3>
+    <p style={{ color: "#555", fontSize: "0.9rem" }}>
+      {eventId} • Created by <strong>{createdBy}</strong>
+    </p>
+    <p style={{ fontSize: "0.8rem", marginTop: "0.5rem" }}>
+      Priority: <strong>{priority}</strong> | Time: <strong>{time}</strong>
+    </p>
   </div>
 );
 
 const UserEventsPage = () => {
   const userEvents = [
-    {
-      title: "Beauty Bosses Unlocked with Laura King | Brisbane",
-      priority: "low",
-      time: "00:15:00",
-      isUrgent: true,
-    },
-    {
-      title: "PEPA Conference 2025 Virtual",
-      priority: "low",
-      time: "00:30:00",
-    },
-    {
-      title: "Relationship Based Practice in Adult Social Work",
-      priority: "low",
-      time: "00:30:00",
-    },
-    {
-      title: "AIM HIGH! Navigating Difficult Conversations",
-      priority: "low",
-      time: "00:30:00",
-    },
-    {
-      title: "Make an Automatic Payment System that Enables the Design",
-      priority: "high",
-      time: "00:30:00",
-    },
+    { title: "Event 1", priority: "low", time: "10:00 AM" },
+    { title: "Event 2", priority: "high", time: "2:00 PM" },
+    { title: "Event 3", priority: "medium", time: "4:00 PM" },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-semibold text-gray-700">Your Events</h2>
-        <button className="bg-green-100 text-green-700 font-semibold px-4 py-2 rounded-full hover:bg-green-200">
-          Add New Event
-        </button>
-      </div>
+    <div className="bg-gray-100 p-6 rounded-lg shadow-md w-full">
+    <h2 className="text-xl font-bold mb-4">My Events</h2>
+    {/* First Event */}
+    <div className="bg-white p-4 rounded-lg shadow flex justify-between items-center mb-2">
+    {/* Event Details */}
+    <div className="flex items-center gap-5">
+    <span className="text-yellow-500 text-2xl">⭐</span>
+    <div>
+      <h3 className="text-lg font-semibold">Car Meet</h3>
+      <p className="text-gray-500">10th May 2025</p>
+    </div>
+    </div>
 
-      {userEvents.map((event, index) => (
-        <UserEventCard key={index} {...event} />
-      ))}
+    {/* Status & Time */}
+    <div className="flex flex-row justify-center items-center gap-2">
+    <span className="bg-green-100 text-green-400 px-2 py-1 rounded">Registration Completed</span>
+    <span className="bg-red-100 text-red-400 px-2 py-1 rounded">In 2 hours</span>
+    </div>
+    </div>
+    <div className="bg-white p-4 rounded-lg shadow flex justify-between items-center mb-2">
+    {/* Event Details */}
+    <div className="flex items-center gap-5">
+    <span className="text-yellow-500 text-2xl">⭐</span>
+    <div>
+      <h3 className="text-lg font-semibold">Car Meet</h3>
+      <p className="text-gray-500">10th May 2025</p>
+    </div>
+    </div>
 
-      <div className="flex justify-center gap-4 mt-6 text-gray-600">
-        <button className="text-sm hover:underline">Previous</button>
-        <button className="w-6 h-6 text-white bg-gray-700 rounded-full text-sm">1</button>
-        <button className="w-6 h-6 text-white bg-blue-600 rounded-full text-sm">2</button>
-        <button className="w-6 h-6 text-white bg-gray-700 rounded-full text-sm">3</button>
-        <button className="text-sm hover:underline">Next</button>
-      </div>
+    {/* Status & Time */}
+    <div className="flex flex-row justify-center items-center gap-2">
+    <span className="bg-green-100 text-green-400 px-2 py-1 rounded">Registration Completed</span>
+    <span className="bg-red-100 text-red-400 px-2 py-1 rounded">In 2 hours</span>
+    </div>
+    </div>
     </div>
   );
 };
