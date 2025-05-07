@@ -19,6 +19,10 @@ const CarMeet = () => {
           <li>Discussions on performance upgrades, aerodynamics, and new automotive tech</li>
           <li>Meet-and-greet opportunities with top car builders and influencers</li>
         </ul>
+        <p className="mt-4 text-lg font-bold">📅 Date: 10th May 2025</p>
+        <p className="text-lg font-bold">⏰ Time: 2:00 PM - 6:00 PM</p>
+        <p className="text-lg font-bold">📍 Venue: Brisbane Showgrounds</p>
+<p className="text-lg font-bold">🎟️ Entry Fee: Free</p>
       </div>
 
       <Link to="/user_dashboard" className="mt-4 text-blue-500 underline">Back to Dashboard</Link>

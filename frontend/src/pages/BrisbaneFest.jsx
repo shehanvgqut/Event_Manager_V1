@@ -18,6 +18,10 @@ const BrisbaneFest = () => {
           <li><strong>Dance performances</strong> from hip-hop crews, traditional cultural dances, and contemporary acts</li>
           <li><strong>Fireworks display</strong> closing the festival with a breathtaking spectacle</li>
         </ul>
+        <p className="mt-4 text-lg font-bold">📅 Date: 14th May 2025</p>
+        <p className="text-lg font-bold">⏰ Time: 12:00 PM - 10:00 PM</p>
+        <p className="text-lg font-bold">📍 Venue: Brisbane City Centre</p>
+        <p className="text-lg font-bold">🎟️ Entry Fee: 40$ per person</p>
       </div>
 
       <Link to="/user_dashboard" className="mt-4 text-blue-500 underline">Back to Dashboard</Link>

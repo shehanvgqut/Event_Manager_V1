@@ -1,8 +1,15 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const UserDashboard = () => {
-  const [joinedEvents, setJoinedEvents] = useState([]); // Stores all joined events
+  const [joinedEvents, setJoinedEvents] = useState([]);
+  const [leftEvent, setLeftEvent] = useState("");
+
+  // Load joined events from local storage when the component mounts
+  useEffect(() => {
+    const savedEvents = JSON.parse(localStorage.getItem("joinedEvents")) || [];
+    setJoinedEvents(savedEvents);
+  }, []);
 
   const events = [
     { name: "Car Meet", date: "10th May 2025", route: "/car-meet" },
@@ -11,11 +18,18 @@ const UserDashboard = () => {
     { name: "Birdwatching", date: "16th May 2025", route: "/birdwatching" }
   ];
 
-  const handleJoinEvent = (eventName, e) => {
+  const handleJoinOrLeaveEvent = (eventName, e) => {
     e.preventDefault(); // Prevents navigation on click
-    if (!joinedEvents.includes(eventName)) {
-      setJoinedEvents([...joinedEvents, eventName]); // Adds event to joined list
+    let updatedEvents;
+    if (joinedEvents.includes(eventName)) {
+      updatedEvents = joinedEvents.filter(event => event !== eventName); // Remove event if already joined
+      setLeftEvent(eventName); // Show event left message
+    } else {
+      updatedEvents = [...joinedEvents, eventName]; // Add event to joined list
+      setLeftEvent(""); // Reset left event message when joining
     }
+    setJoinedEvents(updatedEvents);
+    localStorage.setItem("joinedEvents", JSON.stringify(updatedEvents)); // Save to local storage
   };
 
   return (
@@ -34,11 +48,10 @@ const UserDashboard = () => {
             </div>
             <div className="flex gap-2">
               <button 
-                className={`${joinedEvents.includes(event.name) ? "bg-gray-500 cursor-not-allowed" : "bg-green-500 hover:bg-green-600"} text-white px-4 py-2 rounded`}
-                onClick={(e) => handleJoinEvent(event.name, e)}
-                disabled={joinedEvents.includes(event.name)} // Disables button once joined
+                className={`${joinedEvents.includes(event.name) ? "bg-red-500 hover:bg-red-600" : "bg-green-500 hover:bg-green-600"} text-white px-4 py-2 rounded`}
+                onClick={(e) => handleJoinOrLeaveEvent(event.name, e)}
               >
-                {joinedEvents.includes(event.name) ? "Event Joined" : "Join Event"}
+                {joinedEvents.includes(event.name) ? "Leave Event" : "Join Event"}
               </button>
               <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                 View Details
@@ -48,11 +61,18 @@ const UserDashboard = () => {
         </Link>
       ))}
 
+      {/* Messages for joined or left events */}
       {joinedEvents.length > 0 && (
         <div className="mt-4 p-4 bg-green-100 rounded-lg shadow">
           {joinedEvents.map((eventName) => (
             <p key={eventName} className="text-green-700 font-semibold">Joined {eventName} Successfully ✅</p>
           ))}
+        </div>
+      )}
+
+      {leftEvent && (
+        <div className="mt-4 p-4 bg-red-100 rounded-lg shadow">
+          <p className="text-red-700 font-semibold">Left {leftEvent} Successfully ❌</p>
         </div>
       )}
     </div>

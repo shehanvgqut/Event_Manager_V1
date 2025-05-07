@@ -18,6 +18,10 @@ const MovieNight = () => {
           <li>Pre-show trivia and interactive discussions on cinema history</li>
           <li>Live voting for the audience’s favorite movie scene</li>
         </ul>
+        <p className="mt-4 text-lg font-bold">📅 Date: 11th May 2025</p>
+        <p className="text-lg font-bold">⏰ Time: 7:30 PM - 10:30 PM</p>
+        <p className="text-lg font-bold">📍 Venue: South Bank Parklands</p>
+        <p className="text-lg font-bold">🎟️ Entry Fee: 7$ per person</p>
       </div>
 
       <Link to="/user_dashboard" className="mt-4 text-blue-500 underline">Back to Dashboard</Link>

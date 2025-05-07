@@ -6,7 +6,6 @@ const Birdwatching = () => {
       <h2 className="text-xl font-bold mb-4">Birdwatching</h2>
 
       <div className="bg-white p-6 rounded-lg shadow">
-        <span className="text-yellow-500 text-3xl">⭐</span>
         <p className="text-gray-700 mt-2">
           🦜🌿 <strong>Escape into nature and discover the hidden beauty of Brisbane’s wildlife!</strong> This guided birdwatching experience is designed for enthusiasts of all levels, offering a chance to spot rare and colorful bird species in their natural habitat.
         </p>
@@ -19,6 +18,10 @@ const Birdwatching = () => {
           <li>Learn how to identify different species and contribute to conservation efforts</li>
           <li><strong>Photography tips</strong> for capturing stunning bird images</li>
         </ul>
+        <p className="mt-4 text-lg font-bold">📅 Date: 16th May 2025</p>
+        <p className="text-lg font-bold">⏰ Time: 6:00 AM - 10:00 AM</p>
+        <p className="text-lg font-bold">📍 Venue: Brisbane Botanic Gardens</p>
+        <p className="text-lg font-bold">🎟️ Entry Fee: Free</p>
       </div>
 
       <Link to="/user_dashboard" className="mt-4 text-blue-500 underline">Back to Dashboard</Link>
