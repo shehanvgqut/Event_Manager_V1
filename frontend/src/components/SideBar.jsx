@@ -80,7 +80,7 @@ const Sidebar = ({ children }) => {
                     className="flex items-center space-x-2 hover:text-gray-300"
                   >
                     <FaCalendarAlt />
-                    {isOpen && <span>Events</span>}
+                    {isOpen && <span>Home</span>}
                   </Link>
                   <Link 
                     to="/groups" 

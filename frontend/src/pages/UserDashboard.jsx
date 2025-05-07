@@ -1,100 +1,62 @@
-// pages/UserDashboard.jsx
+import { Link } from "react-router-dom";
+import { useState } from "react";
+
 const UserDashboard = () => {
+  const [joinedEvents, setJoinedEvents] = useState([]); // Stores all joined events
+
+  const events = [
+    { name: "Car Meet", date: "10th May 2025", route: "/car-meet" },
+    { name: "Movie Night", date: "11th May 2025", route: "/movie-night" },
+    { name: "Brisbane Fest", date: "14th May 2025", route: "/brisbane-fest" },
+    { name: "Birdwatching", date: "16th May 2025", route: "/birdwatching" }
+  ];
+
+  const handleJoinEvent = (eventName, e) => {
+    e.preventDefault(); // Prevents navigation on click
+    if (!joinedEvents.includes(eventName)) {
+      setJoinedEvents([...joinedEvents, eventName]); // Adds event to joined list
+    }
+  };
+
   return (
     <div className="bg-gray-100 p-6 rounded-lg shadow-md w-full">
-<h2 className="text-xl font-bold mb-4">Upcoming Events</h2>
-{/* First Event */}
-<div className="bg-white p-4 rounded-lg shadow flex justify-between items-center mb-2">
-{/* Event Details */}
-<div className="flex items-center gap-5">
-<span className="text-yellow-500 text-2xl">⭐</span>
-<div>
-  <h3 className="text-lg font-semibold">Car Meet</h3>
-  <p className="text-gray-500">10th May 2025</p>
-</div>
-</div>
+      <h2 className="text-xl font-bold mb-4">Upcoming Events</h2>
 
-{/* Status & Time */}
-<div className="flex flex-row justify-center items-center gap-2">
-<span className="bg-green-100 text-green-400 px-2 py-1 rounded">Registration Completed</span>
-<span className="bg-red-100 text-red-400 px-2 py-1 rounded">In 2 hours</span>
-</div>
+      {events.map((event) => (
+        <Link key={event.name} to={event.route} className="block">
+          <div className="bg-white p-4 rounded-lg shadow flex justify-between items-center mb-2 cursor-pointer">
+            <div className="flex items-center gap-5">
+              <span className="text-yellow-500 text-2xl">⭐</span>
+              <div>
+                <h3 className="text-lg font-semibold">{event.name}</h3>
+                <p className="text-gray-500">{event.date}</p>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <button 
+                className={`${joinedEvents.includes(event.name) ? "bg-gray-500 cursor-not-allowed" : "bg-green-500 hover:bg-green-600"} text-white px-4 py-2 rounded`}
+                onClick={(e) => handleJoinEvent(event.name, e)}
+                disabled={joinedEvents.includes(event.name)} // Disables button once joined
+              >
+                {joinedEvents.includes(event.name) ? "Event Joined" : "Join Event"}
+              </button>
+              <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                View Details
+              </button>
+            </div>
+          </div>
+        </Link>
+      ))}
 
-{/* Join Button */}
-<div>
-<button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-  Join Event
-</button>
-</div>
-</div>
-
-{/* Second Event */}
-<div className="bg-white p-4 rounded-lg shadow flex justify-between items-center mb-2">
-{/* Event Details */}
-<div className="flex items-center gap-5">
-<span className="text-yellow-500 text-2xl">⭐</span>
-<div>
-  <h3 className="text-lg font-semibold">Movie Night</h3>
-  <p className="text-gray-500">11th May 2025</p>
-</div>
-</div>
-{/* Status & Time */}
-<div className="flex flex-row justify-center items-center gap-2">
-<span className="bg-green-100 text-green-400 px-2 py-1 rounded">Registration Completed</span>
-<span className="bg-red-100 text-red-400 px-2 py-1 rounded">In 12 hours</span>
-</div>
-{/* Join Button */}
-<div>
-<button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-  Join Event
-</button>
-</div>
-</div>
-{/* Third Event */}
-<div className="bg-white p-4 rounded-lg shadow flex justify-between items-center mb-2">
-{/* Event Details */}
-<div className="flex items-center gap-5">
-<span className="text-yellow-500 text-2xl">⭐</span>
-<div>
-  <h3 className="text-lg font-semibold">Brisbane Fest</h3>
-  <p className="text-gray-500">14th May 2025</p>
-</div>
-</div>
-{/* Status & Time */}
-<div className="flex flex-row justify-center items-center gap-2">
-<span className="bg-red-100 text-red-400 px-2 py-1 rounded">Registration Incomplete</span>
-<span className="bg-green-100 text-green-400 px-2 py-1 rounded">In 4 days</span>
-</div>
-{/* Join Button */}
-<div>
-<button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-  Join Event
-</button>
-</div>
-</div>
-{/* Fourth Event */}
-<div className="bg-white p-4 rounded-lg shadow flex justify-between items-center mb-2">
-{/* Event Details */}
-<div className="flex items-center gap-5">
-<span className="text-yellow-500 text-2xl">⭐</span>
-<div>
-  <h3 className="text-lg font-semibold">Birdwatching</h3>
-  <p className="text-gray-500">16th May 2025</p>
-</div>
-</div>
-{/* Status & Time */}
-<div className="flex flex-row justify-center items-center gap-2">
-<span className="bg-red-100 text-red-400 px-2 py-1 rounded">Registration Incomplete</span>
-<span className="bg-green-100 text-green-400 px-2 py-1 rounded">In 6 days</span>
-</div>
-{/* Join Button */}
-<div>
-<button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-  Join Event
-</button>
-</div>
-</div>
-</div>
-);
+      {joinedEvents.length > 0 && (
+        <div className="mt-4 p-4 bg-green-100 rounded-lg shadow">
+          {joinedEvents.map((eventName) => (
+            <p key={eventName} className="text-green-700 font-semibold">Joined {eventName} Successfully ✅</p>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 };
+
 export default UserDashboard;
