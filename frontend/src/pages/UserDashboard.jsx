@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 
 const UserDashboard = () => {
   const [joinedEvents, setJoinedEvents] = useState([]);
-  const [leftEvent, setLeftEvent] = useState("");
+  const [notification, setNotification] = useState(""); // Stores temporary success messages
+  const [showBanner, setShowBanner] = useState(false); // Controls banner visibility
 
   // Load joined events from local storage when the component mounts
   useEffect(() => {
@@ -21,19 +22,37 @@ const UserDashboard = () => {
   const handleJoinOrLeaveEvent = (eventName, e) => {
     e.preventDefault(); // Prevents navigation on click
     let updatedEvents;
+
     if (joinedEvents.includes(eventName)) {
       updatedEvents = joinedEvents.filter(event => event !== eventName); // Remove event if already joined
-      setLeftEvent(eventName); // Show event left message
+      setNotification(`Left ${eventName} Successfully ❌`);
     } else {
       updatedEvents = [...joinedEvents, eventName]; // Add event to joined list
-      setLeftEvent(""); // Reset left event message when joining
+      setNotification(`Joined ${eventName} Successfully ✅`);
     }
+
     setJoinedEvents(updatedEvents);
     localStorage.setItem("joinedEvents", JSON.stringify(updatedEvents)); // Save to local storage
+
+    // Show banner
+    setShowBanner(true);
+
+    // Hide banner after 2 seconds with smooth fade-out
+    setTimeout(() => {
+      setShowBanner(false);
+      setNotification(""); // Clear notification
+    }, 2000);
   };
 
   return (
-    <div className="bg-gray-100 p-6 rounded-lg shadow-md w-full">
+    <div className="bg-gray-100 p-6 rounded-lg shadow-md w-full relative">
+      {/* Improved Notification Banner with Smooth Fade-in and Fade-out */}
+      {showBanner && (
+        <div className={`fixed top-5 left-1/2 transform -translate-x-1/2 text-center px-6 py-3 font-semibold text-white rounded-lg transition-opacity duration-700 ease-in-out ${showBanner ? "opacity-100" : "opacity-0"} ${notification.includes("Joined") ? "bg-green-500" : "bg-red-500"}`}>
+          {notification}
+        </div>
+      )}
+
       <h2 className="text-xl font-bold mb-4">Upcoming Events</h2>
 
       {events.map((event) => (
@@ -60,21 +79,6 @@ const UserDashboard = () => {
           </div>
         </Link>
       ))}
-
-      {/* Messages for joined or left events */}
-      {joinedEvents.length > 0 && (
-        <div className="mt-4 p-4 bg-green-100 rounded-lg shadow">
-          {joinedEvents.map((eventName) => (
-            <p key={eventName} className="text-green-700 font-semibold">Joined {eventName} Successfully ✅</p>
-          ))}
-        </div>
-      )}
-
-      {leftEvent && (
-        <div className="mt-4 p-4 bg-red-100 rounded-lg shadow">
-          <p className="text-red-700 font-semibold">Left {leftEvent} Successfully ❌</p>
-        </div>
-      )}
     </div>
   );
 };
