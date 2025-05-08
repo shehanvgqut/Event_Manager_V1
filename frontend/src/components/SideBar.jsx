@@ -120,6 +120,14 @@ const Sidebar = ({ children }) => {
                     <FaChartLine />
                     {isOpen && <span>Admin Dashboard</span>}
                   </Link>
+                  <Link 
+                    to="/groups-admin" 
+                    className="flex items-center space-x-2 hover:text-gray-300"
+                  >
+                    <FaLayerGroup />
+                    {isOpen && <span>Admin Groups</span>}
+                  </Link>
+
                   <Link
                     to="/admin_user_list"
                     className="flex items-center space-x-2 hover:text-gray-300"

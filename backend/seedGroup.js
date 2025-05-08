@@ -33,7 +33,23 @@ mongoose
         description: 'Lorem ipsum dolor sit amet...',
         memberCount: 800,
         visibility: 'public',
-        color: '#2E658C',
+        color: '#2J6858C',
+      },
+      {
+        name: 'Helping New Motorcyclist',
+        location: 'Brisbane, AU',
+        description: 'Lorem ipsum dolor sit amet...',
+        memberCount: 800,
+        visibility: 'public',
+        color: '#2E618C',
+      },
+      {
+        name: 'Helping New Motorcyclist',
+        location: 'Brisbane, AU',
+        description: 'Lorem ipsum dolor sit amet...',
+        memberCount: 800,
+        visibility: 'public',
+        color: '#2E238C',
       },
     ]);
   })

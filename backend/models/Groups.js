@@ -4,9 +4,10 @@ const groupSchema = new mongoose.Schema({
   name: String,
   location: String,
   description: String,
-  memberCount: Number,
   visibility: String,
   color: String,
+  memberCount: Number,
+  members: [{ type: String }]  // assuming userId is a string for now
 });
 
-module.exports = mongoose.model('Groups', groupSchema);
+module.exports = mongoose.model('Group', groupSchema);

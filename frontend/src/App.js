@@ -14,6 +14,8 @@ import UserDashboard from './pages/UserDashboard';
 import AdminCreateUserPage from "./pages/AdminCreateUserPage";
 import AdminAllUserPage from "./pages/AdminAllUserPage";
 import GroupList from './pages/GroupList';
+import GroupDetails from './pages/GroupDetails';
+
 
 function App() {
   return (
@@ -26,7 +28,8 @@ function App() {
           {/* Public routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          
+          <Route path="/group/:id" element={<GroupDetails />} />
+
 
           {/* Protected routes */}
           <Route
@@ -50,7 +53,16 @@ function App() {
             element={
               <ProtectedRoute requiredRole="user">
                 <GroupList />
-              </ProtectedRoute>} />
+              </ProtectedRoute>} 
+          />
+
+          <Route 
+            path="/groups-admin" 
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <GroupList />
+              </ProtectedRoute>} 
+          />
           <Route
             path="/admin_event"
             element={
@@ -85,7 +97,7 @@ function App() {
             }
           />
           <Route
-            path="/admin_dahsboard"
+            path="/admin_dashboard"
             element={
               <ProtectedRoute requiredRole="admin">
                 <AdminDashboard />
