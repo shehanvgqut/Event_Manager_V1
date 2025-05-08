@@ -21,11 +21,11 @@ const registerUser = async (req, res) => {
         });
 
         res.status(201).json({
-            id: user.id,
+            id: user._id,
             name: user.name,
             email: user.email,
             role: user.role,
-            token: generateToken(user.id, user.role),
+            token: generateToken(user._id, user.role),
         });
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -41,12 +41,12 @@ const loginUser = async (req, res) => {
 
         if (user && (await bcrypt.compare(password, user.password))) {
             res.json({
-                id: user.id,
+                id: user._id,
                 name: user.name,
                 email: user.email,
                 role: user.role,
                 university: user.university,
-                token: generateToken(user.id, user.role),
+                token: generateToken(user._id, user.role),
             });
         } else {
             res.status(401).json({ message: 'Invalid email or password' });
@@ -88,13 +88,13 @@ const updateUserProfile = async (req, res) => {
 
         const updatedUser = await user.save();
         res.json({
-            id: updatedUser.id,
+            id: updatedUser._id,
             name: updatedUser.name,
             email: updatedUser.email,
             university: updatedUser.university,
             address: updatedUser.address,
             role: updatedUser.role,
-            token: generateToken(updatedUser.id, updatedUser.role),
+            token: generateToken(updatedUser._id, updatedUser.role),
         });
     } catch (error) {
         res.status(500).json({ message: error.message });

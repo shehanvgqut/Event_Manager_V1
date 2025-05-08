@@ -1,18 +1,27 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 const GroupList = () => {
   const [groups, setGroups] = useState([]);
   const [joinedGroups, setJoinedGroups] = useState(new Set());
-  const userId = '12345678'; // Temporary hardcoded user
+  const user = JSON.parse(localStorage.getItem('user'));
+  const userId = user?.id;
+  const navigate = useNavigate();
+
+console.log('🧪 Joining as userId:', userId); // ⬅️ Add this
 
   useEffect(() => {
     fetch('http://localhost:5001/api/groups')
       .then(res => res.json())
       .then(data => {
         setGroups(data);
+  
+        // ✅ Get list of group IDs the user has joined
         const joined = data
           .filter(group => group.members?.includes(userId))
           .map(group => group._id);
+  
         setJoinedGroups(new Set(joined));
       })
       .catch(err => console.error('Failed to fetch groups', err));
@@ -107,9 +116,12 @@ const GroupList = () => {
                   Join Group
                 </button>
               )}
-              <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+              <button
+                onClick={() => navigate(`/group/${group._id}`)}
+                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                >
                 View Details
-              </button>
+            </button>
             </div>
           </div>
         ))}

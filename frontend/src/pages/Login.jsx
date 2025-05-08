@@ -13,15 +13,11 @@ const Login = () => {
     try {
       const response = await axiosInstance.post('/api/auth/login', formData);
       login(response.data);
-      
-      //Redirect based on role
-      const role = response.data.role;
-      if (role === 'admin') {
-        navigate('/admin');
-      } else {
-        navigate('/user_dashboard'); // Or your default user route
-      }
-    } catch (error) {
+      localStorage.setItem('userId', response.data.id); // ✅ ADD THIS LINE
+
+      // const role = response.data.role;
+      // navigate(role === 'admin' ? '/admin' : '/user');
+          } catch (error) {
       alert('Login failed. Please try again.');
     }
   };
