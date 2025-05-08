@@ -1,47 +1,58 @@
 class EventBuilder {
     constructor() {
-      this.event = {};
+        this.event = {
+            sessions: [],
+        };
     }
-  
+
     setTitle(title) {
-      this.event.title = title;
-      return this;
+        this.event.title = title;
+        return this;
     }
-  
+
+    setCategory(category) {
+        this.event.category = category;
+        return this;
+    }
+
+    setEventType(eventType) {
+        this.event.eventType = eventType;
+        return this;
+    }
+
+    addSession({ startDate, startTime, endTime }) {
+        this.event.sessions.push({ startDate, startTime, endTime });
+        return this;
+    }
+
+    setLocation(location) {
+        this.event.location = location;
+        return this;
+    }
+
     setDescription(description) {
-      this.event.description = description;
-      return this;
+        this.event.description = description;
+        return this;
     }
-  
-    setDate(date) {
-      this.event.date = date;
-      return this;
-    }
-  
-    setUniversity(university) {
-      this.event.University = university;
-      return this;
-    }
-  
+
     setCreatedBy(userId) {
-      this.event.createdBy = userId;
-      return this;
+        this.event.createdBy = userId;
+        return this;
     }
-  
+
     setStatus(status) {
-      this.event.status = status;
-      return this;
+        this.event.status = status;
+        return this;
     }
-  
+
     setImageUrl(imageUrl) {
-      this.event.imageUrl = imageUrl;
-      return this;
+        this.event.imageUrl = imageUrl;
+        return this;
     }
-  
+
     build() {
-      return this.event;
+        return this.event;
     }
-  }
-  
-  module.exports = EventBuilder;
-  
+}
+
+module.exports = EventBuilder;

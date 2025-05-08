@@ -35,10 +35,7 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
     try {
-        console.log("sss " + email);
         const user = await User.findOne({ email });
-        console.log("sss " + user.name);
-
         if (user && (await bcrypt.compare(password, user.password))) {
             res.json({
                 id: user.id,
@@ -65,7 +62,7 @@ const getProfile = async (req, res) => {
 
         res.status(200).json({
             name: user.name,
-            email: user.email,
+            email: user.email,    
             university: user.university,
             address: user.address,
             role: user.role,
