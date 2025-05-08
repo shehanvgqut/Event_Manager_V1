@@ -100,7 +100,7 @@ const AdminCreateUserPage = () => {
       {message && <div className="bg-green-100 text-green-700 p-3 rounded mb-4 text-center">{message}</div>}
       {error && <div className="bg-red-100 text-red-700 p-3 rounded mb-4 text-center">{error}</div>}
 
-      {/* 🔙 Back button */}
+      {/* Back button */}
       <button
         onClick={handleBack}
         type="button"
