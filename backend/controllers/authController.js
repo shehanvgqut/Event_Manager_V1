@@ -21,11 +21,11 @@ const registerUser = async (req, res) => {
         });
 
         res.status(201).json({
-            id: user._id,
+            id: user.id,
             name: user.name,
             email: user.email,
             role: user.role,
-            token: generateToken(user._id, user.role),
+            token: generateToken(user.id, user.role),
         });
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -35,18 +35,15 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
     try {
-        console.log("sss " + email);
         const user = await User.findOne({ email });
-        console.log("sss " + user.name);
-
         if (user && (await bcrypt.compare(password, user.password))) {
             res.json({
-                id: user._id,
+                id: user.id,
                 name: user.name,
                 email: user.email,
                 role: user.role,
                 university: user.university,
-                token: generateToken(user._id, user.role),
+                token: generateToken(user.id, user.role),
             });
         } else {
             res.status(401).json({ message: 'Invalid email or password' });
@@ -88,13 +85,13 @@ const updateUserProfile = async (req, res) => {
 
         const updatedUser = await user.save();
         res.json({
-            id: updatedUser._id,
+            id: updatedUser.id,
             name: updatedUser.name,
             email: updatedUser.email,
             university: updatedUser.university,
             address: updatedUser.address,
             role: updatedUser.role,
-            token: generateToken(updatedUser._id, updatedUser.role),
+            token: generateToken(updatedUser.id, updatedUser.role),
         });
     } catch (error) {
         res.status(500).json({ message: error.message });
