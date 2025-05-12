@@ -80,3 +80,60 @@ exports.leaveGroup = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+// Create a new group
+exports.createGroup = async (req, res) => {
+    try {
+        const userId = req.body.creatorId || req.body.userId;
+        if (!userId) return res.status(400).json({ message: 'Missing userId' });
+          
+      const {
+        name,
+        description,
+        location,
+        topics,
+        isPrivate,
+        visibility,
+        creatorId,
+        members
+      } = req.body;
+  
+      if (!name || !location) {
+        return res.status(400).json({ message: 'Name and location are required' });
+      }
+  
+      const newGroup = new Group({
+        name,
+        description,
+        location,
+        topics,
+        isPrivate: !!isPrivate,
+        visibility,
+        creatorId: userId,
+        members: [userId],
+        memberCount: 1
+      });
+  
+      await newGroup.save();
+      res.status(201).json(newGroup);
+    } catch (err) {
+      console.error('Error creating group:', err);
+      res.status(500).json({ message: 'Failed to create group' });
+    }
+  };
+
+  exports.updateGroup = async (req, res) => {
+    try {
+      const group = await Group.findById(req.params.id);
+      if (!group) return res.status(404).json({ message: 'Group not found' });
+  
+      Object.assign(group, req.body); // Update with new values
+      await group.save();
+  
+      res.status(200).json(group);
+    } catch (err) {
+      console.error('Update error:', err);
+      res.status(500).json({ message: 'Failed to update group' });
+    }
+  };
+  
