@@ -1,4 +1,5 @@
 const Event = require('../models/Event');
+const JoinedEvents = require('../models/JoinedEvent');
 
 class EventService {
   // Get all events (sorted by first session startDate ascending)
@@ -92,6 +93,31 @@ class EventService {
       throw new Error('Failed to delete event. Please try again later.');
     }
   }
+
+  async joinEvent(eventId, userId) {
+    console.log('Service: trying to join event', eventId, 'by user', userId);
+    const event = await Event.findById(eventId);
+    if (!event) {
+      const error = new Error('Event not found');
+      error.statusCode = 404;
+      throw error;
+    }
+  
+    const alreadyJoined = await JoinedEvents.findOne({ event: eventId, user: userId });
+    if (alreadyJoined) {
+      const error = new Error('User already joined this event');
+      error.statusCode = 400;
+      throw error;
+    }
+  
+    const joinRecord = new JoinedEvents({ event: eventId, user: userId });
+    await joinRecord.save();
+  
+    console.log('User successfully joined event.');
+  
+    return { message: 'Successfully joined the event' };
+  }
+
 }
 
 module.exports = new EventService();

@@ -17,4 +17,7 @@ router.put('/:id', EventController.updateEvent);
 // DELETE an event
 router.delete('/:id', EventController.deleteEvent);
 
+// Join event
+router.post('/:id/join', EventController.joinEvent);
+
 module.exports = router;
