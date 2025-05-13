@@ -8,6 +8,12 @@ router.post('/', EventController.createEvent);
 // GET all events
 router.get('/', EventController.getAllEvents);
 
+// GET joined events for a user
+router.get('/joinedevents', EventController.getUserJoinedEvents);
+
+// Delete record
+router.delete('/:id/leave', EventController.leaveEvent);
+
 // GET a single event
 router.get('/:id', EventController.getEventById);
 

@@ -96,6 +96,7 @@ class EventService {
 
   async joinEvent(eventId, userId) {
     console.log('Service: trying to join event', eventId, 'by user', userId);
+
     const event = await Event.findById(eventId);
     if (!event) {
       const error = new Error('Event not found');
@@ -118,6 +119,26 @@ class EventService {
     return { message: 'Successfully joined the event' };
   }
 
+  async getUserJoinedEvents(userId) {
+    try {
+      return await JoinedEvents.find({ user: userId }).select('event -_id');
+    } catch (err) {
+      console.error('EventService: Error fetching user joined events:', err.message);
+      throw new Error('Failed to retrieve joined events.');
+    }
+  }
+
+  async leaveEvent(eventId, userId) {
+    const record = await JoinedEvents.findOneAndDelete({ event: eventId, user: userId });
+    if (!record) {
+      const error = new Error('Join record not found');
+      error.statusCode = 404;
+      throw error;
+    }
+    return { message: 'Successfully left the event' };
+  }
+  
+  
 }
 
 module.exports = new EventService();
