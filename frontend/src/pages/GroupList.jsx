@@ -6,13 +6,14 @@ const GroupList = () => {
   const [joinedGroups, setJoinedGroups] = useState(new Set());
   const [notification, setNotification] = useState('');
   const [showBanner, setShowBanner] = useState(false);
+  const [sortOption, setSortOption] = useState('');
 
   const user = JSON.parse(localStorage.getItem('user'));
   const userId = user?.id;
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:5001/api/groups')
+    fetch(`http://localhost:5001/api/groups${sortOption ? `?sort=${sortOption}` : ''}`)
       .then(res => res.json())
       .then(data => {
         setGroups(data);
@@ -22,7 +23,7 @@ const GroupList = () => {
         setJoinedGroups(new Set(joined));
       })
       .catch(err => console.error('Failed to fetch groups', err));
-  }, []);
+  }, [sortOption]);
 
   const triggerBanner = (message) => {
     setNotification(message);
@@ -76,6 +77,9 @@ const GroupList = () => {
     navigate('/groups/create');
   };
 
+  const myGroups = groups.filter(group => joinedGroups.has(group._id));
+  const otherGroups = groups.filter(group => !joinedGroups.has(group._id));
+
   return (
     <>
       {showBanner && (
@@ -88,7 +92,7 @@ const GroupList = () => {
 
       <div className="min-h-screen bg-gray-100 px-4 py-6">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-semibold text-gray-800">Groups</h2>
+          <h2 className="text-2xl font-semibold text-gray-800">Group Management</h2>
           <button
             onClick={handleCreateGroup}
             className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded"
@@ -97,57 +101,88 @@ const GroupList = () => {
           </button>
         </div>
 
-        <div className="space-y-4">
-        {groups.map(group => (
-            <div
+        <div className="flex justify-end mb-4">
+          <select
+            onChange={(e) => setSortOption(e.target.value)}
+            className="border rounded px-3 py-1"
+          >
+            <option value="">Sort by...</option>
+            <option value="members">Most Members</option>
+            <option value="recent">Recently Created</option>
+          </select>
+        </div>
+
+        <h3 className="text-xl font-semibold text-gray-700 mb-2">My Groups</h3>
+        <div className="space-y-4 mb-8">
+          {myGroups.length === 0 ? (
+            <p className="text-gray-500">You haven't joined any groups yet.</p>
+          ) : (
+            myGroups.map(group => (
+              <GroupCard
                 key={group._id}
-                className="bg-white shadow-md rounded-lg px-6 py-4 flex justify-between items-center"
-            >
-                <div className="flex items-center gap-4">
-                {/* 📸 9:16 rectangle placeholder (e.g., 72x128px) */}
-                <div className="w-32 aspect-video bg-gray-300 rounded-md flex-shrink-0"></div>
+                group={group}
+                joined
+                onLeave={handleLeaveGroup}
+                onView={() => navigate(`/group/${group._id}`)}
+              />
+            ))
+          )}
+        </div>
 
-                {/* 📋 Group text content */}
-                <div>
-                    <h3 className="text-lg font-semibold text-gray-900">{group.name}</h3>
-                    <p className="text-sm text-gray-600">{group.location}</p>
-                    <p className="text-sm text-gray-700 mt-1">{group.description}</p>
-                    <p className="text-sm text-gray-500 mt-1">
-                    {group.memberCount} members ~ {group.visibility}
-                    </p>
-                </div>
-                </div>
-
-                {/* 🎯 Action buttons */}
-                <div className="flex gap-3 ml-4">
-                {joinedGroups.has(group._id) ? (
-                    <button
-                    onClick={() => handleLeaveGroup(group._id)}
-                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
-                    >
-                    Leave Group
-                    </button>
-                ) : (
-                    <button
-                    onClick={() => handleJoinGroup(group._id)}
-                    className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
-                    >
-                    Join Group
-                    </button>
-                )}
-                <button
-                    onClick={() => navigate(`/group/${group._id}`)}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
-                >
-                    View Details
-                </button>
-                </div>
-            </div>
-            ))}
-
+        <h3 className="text-xl font-semibold text-gray-700 mb-2">All Groups</h3>
+        <div className="space-y-4">
+          {otherGroups.map(group => (
+            <GroupCard
+              key={group._id}
+              group={group}
+              onJoin={handleJoinGroup}
+              onView={() => navigate(`/group/${group._id}`)}
+            />
+          ))}
         </div>
       </div>
     </>
+  );
+};
+
+const GroupCard = ({ group, joined, onJoin, onLeave, onView }) => {
+  return (
+    <div className="bg-white shadow-md rounded-lg px-6 py-4 flex justify-between items-center">
+      <div className="flex items-center gap-4">
+        <div className="w-32 aspect-video bg-gray-300 rounded-md flex-shrink-0"></div>
+        <div>
+          <h3 className="text-lg font-semibold text-gray-900">{group.name}</h3>
+          <p className="text-sm text-gray-600">{group.location}</p>
+          <p className="text-sm text-gray-700 mt-1">{group.description}</p>
+          <p className="text-sm text-gray-500 mt-1">
+            {group.memberCount} members ~ {group.visibility}
+          </p>
+        </div>
+      </div>
+      <div className="flex gap-3 ml-4">
+        {joined ? (
+          <button
+            onClick={() => onLeave(group._id)}
+            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+          >
+            Leave Group
+          </button>
+        ) : (
+          <button
+            onClick={() => onJoin(group._id)}
+            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+          >
+            Join Group
+          </button>
+        )}
+        <button
+          onClick={onView}
+          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+        >
+          View Details
+        </button>
+      </div>
+    </div>
   );
 };
 
