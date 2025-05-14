@@ -1,8 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const groupController = require('../controllers/groupController');
+const {
+  getAllGroups,
+  getMyGroups,
+  joinGroup,
+  leaveGroup
+} = require('../controllers/groupController');
 
-router.get('/', groupController.getAllGroups);
-router.get('/:id', groupController.getGroupById);
+// Always place specific routes before parameterized ones
+router.get('/my-groups', getMyGroups);
+router.post('/:id/join', joinGroup);
+router.post('/:id/leave', leaveGroup);
+router.get('/', getAllGroups);
 
-module.exports = router; 
+module.exports = router;

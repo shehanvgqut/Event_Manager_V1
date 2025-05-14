@@ -49,19 +49,18 @@ const Sidebar = ({ children }) => {
 
         {/* Sidebar content */}
         <nav className="flex-1 flex flex-col p-4 space-y-4">
-          <Link to="/" className="flex items-center space-x-2 hover:text-gray-300">
+          <Link to="/user_event_list" className="flex items-center space-x-2 hover:text-gray-300">
             <FaHome />
             {isOpen && <span className="text-lg font-bold">Event Manager</span>}
           </Link>
+
+          
 
           {loading ? (
             <div>Loading...</div> // Prevent redirect until we know the user state
           ) : user ? (
             <>
-              <Link to="/groups" className="flex items-center space-x-2 hover:text-gray-300">
-                <FaLayerGroup />
-                {isOpen && <span>Groups</span>}
-              </Link>
+              
               <Link to="/profile" className="flex items-center space-x-2 hover:text-gray-300">
                 <FaUserCircle />
                 {isOpen && <span>Profile</span>}
@@ -69,22 +68,30 @@ const Sidebar = ({ children }) => {
 
               {user.role === 'user' && (
                 <>
-                  <Link
+                  {/* <Link
                     to="/user_dashboard"
                     className="flex items-center space-x-2 hover:text-gray-300"
                   >
                     <FaTachometerAlt />
                     {isOpen && <span>User Dashboard</span>}
-                  </Link>
+                  </Link> */}
                   <Link
-                    to="/user_event_page"
+                    to="/user_event_list"
                     className="flex items-center space-x-2 hover:text-gray-300"
                   >
                     <FaCalendarAlt />
-                    {isOpen && <span>Events</span>}
+                    {isOpen && <span>User Dashboard</span>}
+                  </Link>
+                  <Link 
+                    to="/groups" 
+                    className="flex items-center space-x-2 hover:text-gray-300"
+                  >
+                    <FaLayerGroup />
+                    {isOpen && <span>Groups</span>}
                   </Link>
                 </>
               )}
+              
 
               {user.role === 'admin' && (
                 <>
@@ -92,13 +99,13 @@ const Sidebar = ({ children }) => {
                     <FaTools />
                     {isOpen && <span>Admin Panel</span>}
                   </Link>
-                  <Link
+                  {/* <Link
                     to="/admin_event_page"
                     className="flex items-center space-x-2 hover:text-gray-300"
                   >
                     <FaCalendarAlt />
                     {isOpen && <span>Events</span>}
-                  </Link>
+                  </Link> */}
                   <Link
                     to="/admin_event_list"
                     className="flex items-center space-x-2 hover:text-gray-300"
@@ -113,6 +120,14 @@ const Sidebar = ({ children }) => {
                     <FaChartLine />
                     {isOpen && <span>Admin Dashboard</span>}
                   </Link>
+                  <Link 
+                    to="/groups-admin" 
+                    className="flex items-center space-x-2 hover:text-gray-300"
+                  >
+                    <FaLayerGroup />
+                    {isOpen && <span>Admin Groups</span>}
+                  </Link>
+
                   <Link
                     to="/admin_user_list"
                     className="flex items-center space-x-2 hover:text-gray-300"

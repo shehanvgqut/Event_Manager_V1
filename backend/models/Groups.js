@@ -1,29 +1,13 @@
-const groups = [
-    {
-      id: 1,
-      name: "Friends you haven’t met yet",
-      location: "Brisbane, AU",
-      description: "Lorem ipsum dolor sit",
-      memberCount: 2000,
-      visibility: "public"
-    },
-    {
-      id: 2,
-      name: "Hiking South East Queensland",
-      location: "Brisbane, AU",
-      description: "Lorem ipsum dolor sit",
-      memberCount: 5600,
-      visibility: "private"
-    },
-    {
-      id: 3,
-      name: "Helping New Motorcyclist",
-      location: "Brisbane, AU",
-      description: "Lorem ipsum dolor sit",
-      memberCount: 800,
-      visibility: "public"
-    },
-    // Add others...
-  ];
-  
-  module.exports = groups;
+const mongoose = require('mongoose');
+
+const groupSchema = new mongoose.Schema({
+  name: String,
+  location: String,
+  description: String,
+  visibility: String,
+  color: String,
+  memberCount: Number,
+  members: [{ type: String }]  // assuming userId is a string for now
+});
+
+module.exports = mongoose.model('Group', groupSchema);
