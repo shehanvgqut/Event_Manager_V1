@@ -76,7 +76,7 @@ const Sidebar = ({ children }) => {
                     {isOpen && <span>User Dashboard</span>}
                   </Link>
                   <Link
-                    to="/user_event_page"
+                    to="/user_event_list"
                     className="flex items-center space-x-2 hover:text-gray-300"
                   >
                     <FaCalendarAlt />

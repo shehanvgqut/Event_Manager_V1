@@ -79,6 +79,53 @@ class EventController {
       return res.status(status).json({ msg: err.message || 'Server Error' });
     }
   }
+
+  async joinEvent(req, res) {
+    const { id: eventId } = req.params;
+    const { userId } = req.body;
+
+    try {
+      const updatedEvent = await EventService.joinEvent(eventId, userId);
+      return res.json({ msg: 'Joined successfully', event: updatedEvent });
+    } catch (err) {
+      console.error('EventController: Error joining event:', err.message);
+      const status = err.statusCode || 500;
+      return res.status(status).json({ msg: err.message });
+    }
+  }
+
+  // GET /api/events/joined?userId=61513681335
+async getUserJoinedEvents(req, res) {
+  const { userId } = req.query;
+
+  if (!userId) {
+    return res.status(400).json({ msg: 'Missing userId' });
+  }
+
+  try {
+    const joined = await EventService.getUserJoinedEvents(userId);
+    return res.json(joined); // Array of { event: ObjectId }
+  } catch (err) {
+    console.error('EventController: Error fetching joined events:', err.message);
+    const status = err.statusCode || 500;
+    return res.status(status).json({ msg: err.message });
+  }
+}
+
+async leaveEvent(req, res) {
+  const { id: eventId } = req.params;
+  const { userId } = req.body;
+
+  try {
+    await EventService.leaveEvent(eventId, userId);
+    return res.json({ msg: 'Left the event' });
+  } catch (err) {
+    console.error('Error leaving event:', err.message);
+    const status = err.statusCode || 500;
+    return res.status(status).json({ msg: err.message });
+  }
+}
+
 }
 
 module.exports = new EventController();
