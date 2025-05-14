@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom'; 
 import { useEffect, useState } from 'react';
 import axiosInstance from '../axiosConfig';
-import EventDetail from '../components/Events/EventDetailComponent';
+import EventDetailComponent from '../components/Events/EventDetailComponent';
 import WithStatusAndExitButton from '../decorators/WithStatusAndExitButton';
 
 const EventDetails = () => {
@@ -23,7 +23,7 @@ const EventDetails = () => {
   if (loading) return <div className="p-6">Loading event...</div>;
   if (!event) return <div className="p-6">Event not found.</div>;
 
-  const DecoratedEventDetail = WithStatusAndExitButton(EventDetail);
+  const DecoratedEventDetail = WithStatusAndExitButton(EventDetailComponent);
 
   return (
     <div className="p-6">

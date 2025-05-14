@@ -10,11 +10,10 @@ export const AuthProvider = ({ children }) => {
   //Stable singleton: store in a ref
   const inactivityServiceRef = useRef(null);
 
-  // No new InactivityService here
-
   useEffect(() => {
     // Initialize the service ONCE
     if (!inactivityServiceRef.current) {
+      //if the user is inactive log them out - security reasons
       inactivityServiceRef.current = new InactivityService(10 * 60 * 1000, () => {
         logout();
         alert('You have been logged out due to inactivity.');
