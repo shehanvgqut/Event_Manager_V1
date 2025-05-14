@@ -8,13 +8,14 @@ import UnauthorizedPage from './pages/Unauthorized';
 import ProtectedRoute from './context/ProtectedRoute';
 import AdminEvent from './pages/AdminEvents';
 import AdminEventList from './pages/AdminEventsList'; 
-import UserEvent from './pages/UserEvents'; 
 import AdminDashboard from "./pages/AdminDashboard"
 import UserDashboard from './pages/UserDashboard';
 import AdminCreateUserPage from "./pages/AdminCreateUserPage";
 import AdminAllUserPage from "./pages/AdminAllUserPage";
 import GroupList from './pages/GroupList';
 import GroupDetails from './pages/GroupDetails';
+import UserEventsList from './pages/UserEventsList'; 
+import EventDetail from './pages/EventDetails'; 
 import CreateGroup from './pages/CreateGroup'; 
 
 
@@ -109,7 +110,7 @@ function App() {
             path="/user_event_page"
             element={
               <ProtectedRoute requiredRole="user">
-                <UserEvent />
+                <UserEventsList />
               </ProtectedRoute>
             }
           />
@@ -142,6 +143,23 @@ function App() {
             element={
               <ProtectedRoute requiredRole="admin">
                 <AdminAllUserPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/user_event_list"
+            element={
+              <ProtectedRoute requiredRole="user">
+                <UserEventsList />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/event_detail/:id"
+            element={
+              <ProtectedRoute requiredRole="user">
+                <EventDetail />
               </ProtectedRoute>
             }
           />
