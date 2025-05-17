@@ -54,7 +54,7 @@ function App() {
           <Route 
             path="/groups" 
             element={
-              <ProtectedRoute requiredRole="user">
+              <ProtectedRoute>
                 <GroupList />
               </ProtectedRoute>} 
           />
@@ -77,7 +77,7 @@ function App() {
           <Route 
             path="/groups-admin" 
             element={
-              <ProtectedRoute requiredRole="admin">
+              <ProtectedRoute>
                 <GroupList />
               </ProtectedRoute>} 
           />

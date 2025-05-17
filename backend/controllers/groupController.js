@@ -145,6 +145,28 @@ class GroupController {
       res.status(500).json({ message: 'Failed to update group' });
     }
   }
+
+
+  static async deleteGroup(req, res) {
+    try {
+      const groupId = req.params.id;
+      const userId = req.body.userId; // Sent from frontend
+  
+      if (!userId) return res.status(400).json({ message: 'Missing userId in request' });
+  
+      const group = await Group.findById(groupId);
+      if (!group) return res.status(404).json({ message: 'Group not found' });
+  
+      if (group.creatorId !== userId) {
+        return res.status(403).json({ message: 'Only the group creator can delete this group' });
+      }
+  
+      await Group.findByIdAndDelete(groupId);
+      res.status(200).json({ message: 'Group deleted successfully' });
+    } catch (err) {
+      res.status(500).json({ message: 'Failed to delete group' });
+    }
+  }
 }
 
 module.exports = GroupController;

@@ -143,6 +143,30 @@ const GroupList = () => {
       </div>
     </>
   );
+
+  const handleDeleteGroup = async (groupId) => {
+    if (!window.confirm('Are you sure you want to delete this group?')) return;
+  
+    try {
+      const res = await fetch(`http://localhost:5001/api/groups/${groupId}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId })
+      });
+  
+      const data = await res.json();
+      if (res.ok) {
+        triggerBanner('Group deleted successfully!');
+        setGroups(groups.filter(g => g._id !== groupId));
+        joinedGroups.delete(groupId);
+      } else {
+        alert(data.message || 'Failed to delete group');
+      }
+    } catch (err) {
+      console.error('Delete error:', err);
+      alert('Server error');
+    }
+  };
 };
 
 const GroupCard = ({ group, joined, onJoin, onLeave, onView }) => {

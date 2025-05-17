@@ -29,6 +29,30 @@ const GroupDetails = () => {
   console.log('🧪 userId:', userId);
     console.log('🧪 group.creatorId:', group.creatorId);
 
+    const handleDeleteGroup = async () => {
+        if (!window.confirm('Are you sure you want to delete this group?')) return;
+      
+        try {
+          const res = await fetch(`http://localhost:5001/api/groups/${id}`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId })
+          });
+      
+          const data = await res.json();
+          if (res.ok) {
+            alert('Group deleted successfully!');
+            navigate('/groups');
+          } else {
+            alert(data.message || 'Failed to delete group');
+          }
+        } catch (err) {
+          console.error('Delete error:', err);
+          alert('Server error');
+        }
+      };
+      
+
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="bg-white rounded-lg shadow-md p-6 max-w-4xl mx-auto">
@@ -59,13 +83,22 @@ const GroupDetails = () => {
           </button>
 
           {isCreator && (
-            <button
-              onClick={() => navigate(`/groups/${group._id}/edit`)}
-              className="bg-yellow-500 hover:bg-yellow-600 text-white font-medium px-6 py-2 rounded"
-            >
-              Edit Group
-            </button>
-          )}
+            <div className="flex gap-4">
+                <button
+                onClick={() => navigate(`/groups/${group._id}/edit`)}
+                className="bg-yellow-500 hover:bg-yellow-600 text-white font-medium px-6 py-2 rounded"
+                >
+                Edit Group
+                </button>
+                <button
+                onClick={handleDeleteGroup}
+                className="bg-red-500 hover:bg-red-600 text-white font-medium px-6 py-2 rounded"
+                >
+                Delete Group
+                </button>
+            </div>
+            )}
+
         </div>
       </div>
     </div>
