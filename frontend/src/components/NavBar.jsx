@@ -1,6 +1,7 @@
 import React from 'react';
 import { FaBell } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';  // ✅ Import Auth
+import defaultProfile from '../assets/profile.png';
 
 const Navbar = () => {
   const { user } = useAuth();  // ✅ Get logged-in user info
@@ -22,7 +23,7 @@ const Navbar = () => {
         {user ? (
           <div className="flex items-center">
             <img
-              src={user.avatarUrl || "https://via.placeholder.com/40"}
+              src={user.avatarUrl || defaultProfile}
               alt="Profile"
               className="w-10 h-10 rounded-full mr-3"
             />
