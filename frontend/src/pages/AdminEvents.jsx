@@ -95,7 +95,7 @@ const AdminEvents = () => {
 
             {/* Progress Bar */}
             <div className="flex items-center justify-between mb-8">
-                <div className="flex-1">
+                {/* <div className="flex-1">
                     <div className="w-full bg-gray-200 h-1 rounded-full">
                         <div className="w-1/4 bg-indigo-600 h-1 rounded-full"></div>
                     </div>
@@ -105,7 +105,7 @@ const AdminEvents = () => {
                         <span>Ticketing</span>
                         <span>Review</span>
                     </div>
-                </div>
+                </div> */}
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-8">

@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/', UserController.createUser);
 
-// ✅ GET /api/users - get all users (admin only)
+//GET /api/users - get all users (admin only)
 router.get('/',  UserController.getAllUsers);
 
 module.exports = router;
