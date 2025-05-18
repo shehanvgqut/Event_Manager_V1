@@ -1,13 +1,15 @@
 const mongoose = require('mongoose');
 
 const groupSchema = new mongoose.Schema({
-  name: String,
-  location: String,
+  name: { type: String, required: true },
   description: String,
-  visibility: String,
-  color: String,
-  memberCount: Number,
-  members: [{ type: String }]  // assuming userId is a string for now
-});
+  location: String,
+  topics: [String],
+  memberCount: { type: Number, default: 0 },
+  isPrivate: { type: Boolean, default: false },
+  visibility: { type: String, enum: ['public', 'private'], default: 'public' },
+  creatorId: { type: String, required: true }, // creator's user ID
+  members: [{ type: String }] // list of user IDs
+}, { timestamps: true });
 
 module.exports = mongoose.model('Group', groupSchema);

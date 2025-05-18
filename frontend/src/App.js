@@ -16,6 +16,8 @@ import GroupList from './pages/GroupList';
 import GroupDetails from './pages/GroupDetails';
 import UserEventsList from './pages/UserEventsList'; 
 import EventDetail from './pages/EventDetails'; 
+import CreateGroup from './pages/CreateGroup'; 
+
 
 
 function App() {
@@ -24,7 +26,7 @@ function App() {
       <Sidebar>
         <Routes>
           {/* Default redirect to /tasks */}
-          <Route path="/" element={<Navigate to="/tasks" />} />
+          <Route path="/" element={<Navigate to="/user_dashboard" />} />
           
           {/* Public routes */}
           <Route path="/login" element={<Login />} />
@@ -52,15 +54,30 @@ function App() {
           <Route 
             path="/groups" 
             element={
-              <ProtectedRoute requiredRole="user">
+              <ProtectedRoute>
                 <GroupList />
               </ProtectedRoute>} 
+          />
+          <Route 
+            path="/groups/create" 
+            element={
+              <ProtectedRoute>
+                <CreateGroup />
+              </ProtectedRoute>} 
+          />
+          <Route
+            path="/groups/:id/edit"
+            element={
+              <ProtectedRoute>
+                <CreateGroup />
+              </ProtectedRoute>
+            }
           />
 
           <Route 
             path="/groups-admin" 
             element={
-              <ProtectedRoute requiredRole="admin">
+              <ProtectedRoute>
                 <GroupList />
               </ProtectedRoute>} 
           />
@@ -108,7 +125,7 @@ function App() {
           <Route
             path="/user_dashboard"
             element={
-              <ProtectedRoute requiredRole="user">
+              <ProtectedRoute requiredRoles={['user', 'admin']}>
                 <UserDashboard />
               </ProtectedRoute>
             }
