@@ -143,37 +143,12 @@ const GroupList = () => {
       </div>
     </>
   );
-
-  const handleDeleteGroup = async (groupId) => {
-    if (!window.confirm('Are you sure you want to delete this group?')) return;
-  
-    try {
-      const res = await fetch(`http://localhost:5001/api/groups/${groupId}`, {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId })
-      });
-  
-      const data = await res.json();
-      if (res.ok) {
-        triggerBanner('Group deleted successfully!');
-        setGroups(groups.filter(g => g._id !== groupId));
-        joinedGroups.delete(groupId);
-      } else {
-        alert(data.message || 'Failed to delete group');
-      }
-    } catch (err) {
-      console.error('Delete error:', err);
-      alert('Server error');
-    }
-  };
 };
 
 const GroupCard = ({ group, joined, onJoin, onLeave, onView }) => {
   return (
     <div className="bg-white shadow-md rounded-lg px-6 py-4 flex justify-between items-center">
       <div className="flex items-center gap-4">
-        <div className="w-32 aspect-video bg-gray-300 rounded-md flex-shrink-0"></div>
         <div>
           <h3 className="text-lg font-semibold text-gray-900">{group.name}</h3>
           <p className="text-sm text-gray-600">{group.location}</p>
