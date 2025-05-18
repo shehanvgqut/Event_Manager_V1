@@ -26,7 +26,7 @@ function App() {
       <Sidebar>
         <Routes>
           {/* Default redirect to /tasks */}
-          <Route path="/" element={<Navigate to="/tasks" />} />
+          <Route path="/" element={<Navigate to="/user_dashboard" />} />
           
           {/* Public routes */}
           <Route path="/login" element={<Login />} />
