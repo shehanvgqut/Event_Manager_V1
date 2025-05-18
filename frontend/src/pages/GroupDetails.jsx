@@ -5,6 +5,10 @@ const GroupDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [group, setGroup] = useState(null);
+  const user = JSON.parse(localStorage.getItem('user'));
+  const userId = user?._id || user?.id;
+
+  
 
   useEffect(() => {
     fetch('http://localhost:5001/api/groups')
@@ -20,20 +24,48 @@ const GroupDetails = () => {
     return <div className="text-center mt-10 text-gray-600">Loading group details...</div>;
   }
 
+  const isCreator = group.creatorId === userId;
+
+  console.log('🧪 userId:', userId);
+    console.log('🧪 group.creatorId:', group.creatorId);
+
+    const handleDeleteGroup = async () => {
+        if (!window.confirm('Are you sure you want to delete this group?')) return;
+      
+        try {
+          const res = await fetch(`http://localhost:5001/api/groups/${id}`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId })
+          });
+      
+          const data = await res.json();
+          if (res.ok) {
+            alert('Group deleted successfully!');
+            navigate('/groups');
+          } else {
+            alert(data.message || 'Failed to delete group');
+          }
+        } catch (err) {
+          console.error('Delete error:', err);
+          alert('Server error');
+        }
+      };
+      
+
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="bg-white rounded-lg shadow-md p-6 max-w-4xl mx-auto">
+        {/* 📸 Group Image Placeholder */}
+        <div className="mb-6">
+          <div className="w-full aspect-video bg-gray-300 rounded-md"></div>
+        </div>
+
         <h2 className="text-2xl font-bold mb-4 text-gray-800">{group.name}</h2>
 
-        <p className="mb-4 text-gray-700">
-          <span role="img" aria-label="group">👥</span> <strong>Welcome to {group.name}!</strong> This group is based in {group.location} and focuses on shared interests.
-        </p>
+        <p className="text-gray-700 mb-4">{group.description}</p>
 
-        <p className="text-gray-700 mb-4">
-          {group.description}
-        </p>
-
-        <div className="bg-gray-50 border border-gray-200 p-4 rounded mb-6">
+        <div className="bg-gray-50 border border-gray-200 p-4 rounded">
           <h3 className="font-bold mb-2 text-gray-800">Group Details:</h3>
           <ul className="list-disc list-inside text-gray-700 space-y-1">
             <li>Visibility: {group.visibility}</li>
@@ -42,19 +74,32 @@ const GroupDetails = () => {
           </ul>
         </div>
 
-        <div className="text-gray-800 space-y-2 mb-4">
-          <p><span role="img" aria-label="calendar">📅</span> <strong>Date Created:</strong> {/* optional date logic */} </p>
-          <p><span role="img" aria-label="pin">📍</span> <strong>Region:</strong> {group.location}</p>
-          <p><span role="img" aria-label="lock">🔒</span> <strong>Visibility:</strong> {group.visibility}</p>
-          <p><span role="img" aria-label="people">👥</span> <strong>Members:</strong> {group.memberCount}</p>
-        </div>
+        <div className="flex justify-between mt-6">
+          <button
+            onClick={() => navigate('/groups')}
+            className="bg-blue-500 hover:bg-blue-600 text-white font-medium px-6 py-2 rounded"
+          >
+            Back to Groups
+          </button>
 
-        <button
-          onClick={() => navigate('/groups')}
-          className="text-blue-600 underline mt-4"
-        >
-          Back to Groups
-        </button>
+          {isCreator && (
+            <div className="flex gap-4">
+                <button
+                onClick={() => navigate(`/groups/${group._id}/edit`)}
+                className="bg-yellow-500 hover:bg-yellow-600 text-white font-medium px-6 py-2 rounded"
+                >
+                Edit Group
+                </button>
+                <button
+                onClick={handleDeleteGroup}
+                className="bg-red-500 hover:bg-red-600 text-white font-medium px-6 py-2 rounded"
+                >
+                Delete Group
+                </button>
+            </div>
+            )}
+
+        </div>
       </div>
     </div>
   );
