@@ -11,7 +11,7 @@ const EventDetailComponent = ({ event, currentUserId }) => {
   const handleJoinEvent = async () => {
     setJoining(true);
     const storedUser = JSON.parse(localStorage.getItem('user'));
-    const currentUserId = storedUser?.id;
+   
     console.log("userId being sent:", storedUser.id);
 
     try {
