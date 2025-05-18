@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../axiosConfig';
+import defaultEvent from '../assets/event.jpg';
 
 const AdminEventList = () => {
   const [events, setEvents] = useState([]);
@@ -66,10 +67,10 @@ const AdminEventList = () => {
                 <tr key={event._id} className="border-b">
                   <td className="px-4 py-2">
                     <img
-                      src={event.imageUrl || 'https://via.placeholder.com/100x60?text=No+Image'}
+                      src={event.imageUrl || defaultEvent}
                       alt={event.title}
                       className="w-24 h-16 object-cover rounded"
-                    />
+                    />                    
                   </td>
                   <td className="px-4 py-2">{event.title}</td>
                   <td className="px-4 py-2">
