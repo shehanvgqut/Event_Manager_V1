@@ -56,10 +56,7 @@ const GroupDetails = () => {
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="bg-white rounded-lg shadow-md p-6 max-w-4xl mx-auto">
-        {/* 📸 Group Image Placeholder */}
-        <div className="mb-6">
-          <div className="w-full aspect-video bg-gray-300 rounded-md"></div>
-        </div>
+        
 
         <h2 className="text-2xl font-bold mb-4 text-gray-800">{group.name}</h2>
 
