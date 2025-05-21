@@ -5,7 +5,6 @@ import EventComponent from "../components/Events/EventComponent";
 import EventList from "../components/Events/EventListComponent";
 import SingleEvent from "../components/Events/SingleEventComponent";
 import WithStatusAndExitButton from "../decorators/WithStatusAndExitButton";
-import { Link } from 'react-router-dom';
 
 const UserEventsList = () => {
   const [events, setEvents] = useState([]);
@@ -17,25 +16,38 @@ const UserEventsList = () => {
   console.log("userId being sent:", storedUser.id);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [eventsRes, joinedRes] = await Promise.all([
-          axiosInstance.get("/api/events"),
-          axiosInstance.get(`/api/events/joinedevents?userId=${currentUserId}`)
-        ]);
+  const fetchData = async () => {
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    const token = storedUser?.token;
 
-        const joinedIds = new Set(joinedRes.data.map((item) => item.event));
-        setJoinedEventIds(joinedIds);
-        setEvents(eventsRes.data);
-      } catch (err) {
-        console.error("Error fetching events or joined status:", err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (!token) {
+      alert("You must be logged in to view events.");
+      setLoading(false);
+      return;
+    }
 
-    fetchData();
-  }, [currentUserId]);
+    try {
+      const [eventsRes, joinedRes] = await Promise.all([
+        axiosInstance.get("/api/events", {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+        axiosInstance.get(`/api/events/joinedevents?userId=${currentUserId}`)
+      ]);
+
+      const joinedIds = new Set(joinedRes.data.map((item) => item.event));
+      setJoinedEventIds(joinedIds);
+      setEvents(eventsRes.data);
+    } catch (err) {
+      console.error("Error fetching events or joined status:", err);
+      alert(err.response?.data?.msg || "Failed to load events.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchData();
+}, [currentUserId]);
+
 
   const handleLeave = async (event) => {
     try {

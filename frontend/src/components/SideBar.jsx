@@ -7,8 +7,6 @@ import {
   FaHome,
   FaLayerGroup,
   FaUserCircle,
-  FaTachometerAlt,
-  FaTools,
   FaCalendarAlt,
   FaListAlt,
   FaChartLine,

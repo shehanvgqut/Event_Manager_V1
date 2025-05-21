@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const EventController = require('../controllers/eventController');
+const { protect } = require('../middleware/authMiddleware');
 
 // CREATE a new event
 router.post('/', EventController.createEvent);
 
 // GET all events
-router.get('/', EventController.getAllEvents);
+router.get('/',protect, EventController.getAllEvents);
 
 // GET joined events for a user
 router.get('/joinedevents', EventController.getUserJoinedEvents);

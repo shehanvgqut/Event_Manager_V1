@@ -5,9 +5,7 @@ class JoinEventNotifierDecorator {
 
   async joinEvent(eventId, userId) {
     const result = await this.eventService.joinEvent(eventId, userId);
-    // Decorated behavior: log or send a notification
     console.log(`[Notifier] User ${userId} joined event ${eventId}`);
-    // e.g., call email service or webhook here
     return result;
   }
 
