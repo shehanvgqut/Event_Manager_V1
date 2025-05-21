@@ -22,21 +22,24 @@ const UserDashboard = () => {
 
     const fetchEvents = async () => {
       try {
+       const storedUser = JSON.parse(localStorage.getItem('user'));
+        const token = storedUser?.token;
+
+        if (!token) {
+          console.warn('🚫 No token found inside storedUser. Are you logged in?');
+          return;
+        }
+
+        const headers = {
+          Authorization: `Bearer ${token}`
+        };
+        console.log('🛡️ Fetch headers:', headers);
+
         console.log('🔄 Fetching events...');
-        const joinedRes = await fetch(`/api/events/joinedevents?userId=${userId}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
+        const joinedRes = await fetch(`/api/events/joinedevents?userId=${userId}`, { headers });
+        const allRes = await fetch(`/api/events`, { headers });
 
-        console.log('✅ joinedRes received');
-
-        const allRes = await fetch(`/api/events`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
-
+        console.log('✅joinedRes received');
         console.log('✅ allRes received');
 
         const joined = await joinedRes.json();
@@ -91,31 +94,20 @@ const UserDashboard = () => {
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Upcoming Events */}
         <div className="bg-white p-4 shadow rounded">
           <h2 className="text-xl font-semibold mb-2">Upcoming Events</h2>
-          {loading ? (
-            <p>Loading...</p>
-          ) : upcoming.length === 0 ? (
-            <p className="text-gray-500">No upcoming events.</p>
-          ) : (
-            renderEvents(upcoming)
-          )}
+          {loading ? <p>Loading...</p> :
+            upcoming.length === 0 ? <p className="text-gray-500">No upcoming events.</p> :
+              renderEvents(upcoming)}
         </div>
 
-        {/* My Registrations */}
         <div className="bg-white p-4 shadow rounded">
           <h2 className="text-xl font-semibold mb-2">My Registrations</h2>
-          {loading ? (
-            <p>Loading...</p>
-          ) : registered.length === 0 ? (
-            <p className="text-gray-500">You haven't registered for any events.</p>
-          ) : (
-            renderEvents(registered)
-          )}
+          {loading ? <p>Loading...</p> :
+            registered.length === 0 ? <p className="text-gray-500">You haven't registered for any events.</p> :
+              renderEvents(registered)}
         </div>
 
-        {/* Notifications */}
         <div className="bg-white p-4 shadow rounded">
           <h2 className="text-xl font-semibold mb-2">Notifications</h2>
           <p className="text-gray-500 mb-2">Stay updated with event changes or announcements.</p>
@@ -125,17 +117,12 @@ const UserDashboard = () => {
         </div>
       </div>
 
-      {/* Past Events */}
       <div className="mt-8">
         <h2 className="text-2xl font-semibold mb-4">Past Events</h2>
         <div className="bg-white p-4 shadow rounded text-gray-700">
-          {loading ? (
-            <p>Loading...</p>
-          ) : past.length === 0 ? (
-            <p className="text-gray-500">You haven't attended any events yet.</p>
-          ) : (
-            renderEvents(past)
-          )}
+          {loading ? <p>Loading...</p> :
+            past.length === 0 ? <p className="text-gray-500">You haven't attended any events yet.</p> :
+              renderEvents(past)}
         </div>
       </div>
     </div>
