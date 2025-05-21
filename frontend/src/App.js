@@ -16,6 +16,8 @@ import GroupList from './pages/GroupList';
 import GroupDetails from './pages/GroupDetails';
 import UserEventsList from './pages/UserEventsList'; 
 import EventDetail from './pages/EventDetails'; 
+import CreateGroup from './pages/CreateGroup'; 
+
 
 
 function App() {
@@ -56,11 +58,26 @@ function App() {
                 <GroupList />
               </ProtectedRoute>} 
           />
+          <Route 
+            path="/groups/create" 
+            element={
+              <ProtectedRoute>
+                <CreateGroup />
+              </ProtectedRoute>} 
+          />
+          <Route
+            path="/groups/:id/edit"
+            element={
+              <ProtectedRoute>
+                <CreateGroup />
+              </ProtectedRoute>
+            }
+          />
 
           <Route 
             path="/groups-admin" 
             element={
-              <ProtectedRoute requiredRole="admin">
+              <ProtectedRoute>
                 <GroupList />
               </ProtectedRoute>} 
           />
