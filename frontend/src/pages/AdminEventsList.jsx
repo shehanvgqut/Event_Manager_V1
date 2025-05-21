@@ -12,26 +12,57 @@ const AdminEventList = () => {
     fetchEvents();
   }, []);
 
-  const fetchEvents = async () => {
-    try {
-      const response = await axiosInstance.get('/api/events');
-      setEvents(response.data);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching events:', error);
-      setLoading(false);
-    }
-  };
+ const fetchEvents = async () => {
+      const storedUser = JSON.parse(localStorage.getItem('user'));
+      const token = storedUser?.token;
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this event?')) return;
-    try {
-      await axiosInstance.delete(`/api/events/${id}`);
-      setEvents(events.filter((event) => event._id !== id)); // remove from UI
-    } catch (error) {
-      console.error('Error deleting event:', error);
-    }
-  };
+      if (!token) {
+        alert('Unauthorized. Please log in.');
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await axiosInstance.get('/api/events', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setEvents(response.data);
+      } catch (error) {
+        console.error('Error fetching events:', error);
+        alert(error.response?.data?.msg || 'Failed to fetch events.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+
+    const handleDelete = async (id) => {
+      if (!window.confirm('Are you sure you want to delete this event?')) return;
+
+      const storedUser = JSON.parse(localStorage.getItem('user'));
+      const token = storedUser?.token;
+
+      if (!token) {
+        alert('Unauthorized. Please log in.');
+        return;
+      }
+
+      try {
+        await axiosInstance.delete(`/api/events/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setEvents(events.filter((event) => event._id !== id));
+        alert('Event deleted successfully.');
+      } catch (error) {
+        console.error('Error deleting event:', error);
+        alert(error.response?.data?.msg || 'Failed to delete event.');
+      }
+    };
+
 
   return (
     <div className="p-6">
@@ -81,18 +112,18 @@ const AdminEventList = () => {
                   <td className="px-4 py-2">{event.location}</td>
                   <td className="px-4 py-2 capitalize">{event.status}</td>
                   <td className="px-4 py-2">
-                    <button
+                      <button
                       onClick={() => navigate(`/admin_event/${event._id}`)}
-                      className="text-blue-600 hover:underline mr-2"
+                      className="bg-yellow-500 text-white px-3 py-1 rounded mr-2 hover:bg-yellow-600 transition"
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => handleDelete(event._id)}
-                      className="text-red-600 hover:underline"
+                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
                     >
                       Delete
-                    </button>
+                  </button>
                   </td>
                 </tr>
               ))}

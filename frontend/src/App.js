@@ -52,7 +52,7 @@ function App() {
           <Route 
             path="/groups" 
             element={
-              <ProtectedRoute requiredRole="user">
+              <ProtectedRoute requiredRoles={['user', 'admin']}>
                 <GroupList />
               </ProtectedRoute>} 
           />
